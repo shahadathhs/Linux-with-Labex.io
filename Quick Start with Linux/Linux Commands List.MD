@@ -1,6 +1,4 @@
-### Basic Linux Commands
-
-- **Commands**:
+## **Commands List**:
 
   - System Information Commands
 
