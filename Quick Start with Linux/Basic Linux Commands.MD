@@ -88,6 +88,7 @@
     - `echo "Hello, World!" > fileName.extension` – Write text to a file. If file exist, replace existing content. If the file doesn't exist, it will be created first, then the content will be written.
     - `cat fileName.extension` – Display the contents of a file.
     - `cat fileName.extension > new_fileName.extension` – Copy the contents of one file to another.
+    - `cat -n fileName.extension` – Display the contents of a file with line numbers.
 
   - Viewing Files Contents
 
@@ -130,6 +131,7 @@
     - `mv -i fileName directory` – Move a file to a directory with an interactive prompt.
 
   - Deleting Files and Directories
+
     - `rm filename` – Remove a file.
     - `rm file1 file2` – Remove multiple files.
     - `rm -r dir` – Remove a directory and its contents, including hidden files.
@@ -138,4 +140,47 @@
     - `rm -rf dir` – Forcefully delete a directory without prompting.
     - `rm -rf dir1 dir2` – Forcefully delete multiple directories without prompting.
 
+  - Manual Pages
+
+    - `man command` – Display the manual page for a command.
+    - `man -k keyword` – Search the manual pages for a keyword.
+    - `man -f command` – Display the manual page for a command.
+
+  - campgen Auto-completion
+
+    - `compgen -c` – List all available commands.
+    - `compgen -a` – List all available aliases.
+    - `compgen -A function` – List all available functions.
+    - `compgen -A variable` – List all available variables.
+    - `compgen -A user` – List all available users.
+    - `compgen -A group` – List all available groups.
+    - `compgen -A host` – List all available hosts.
+
+  - Aliases
+
+    - `alias ls='ls -l'` – Create an alias for the ls command.
+    - `alias` – List all aliases.
+    - `unalias ls` – Remove an alias.
+    - `alias rm='rm -i'` – Create an alias for the rm command.
+
+  - Help and Information
+
+    - `help` – Display help information for the shell.
+    - `help command` – Display help information for a specific command.
+    - `help -d` – Display a list of available help topics.
+    - `help -m` – Display a list of available help manuals.
+    - `help -s` – Display a list of available help sections.
+    - `help -w` – Display a list of available help websites.
+    - `help -v` – Display a list of available help versions.
+
+  - File Permissions
+
+    - `chmod u=rwx fileName` – Set all permissions for the owner of a file.
+    - `chmod u+x fileName` – Add execute permission to the owner of a file.
+    - `chmod g+w fileName` – Add write permission to the group of a file.
+    - `chmod o-r fileName` – Remove read permission from others for a file.
+    - `chmod a=rwx fileName` – Set all permissions for all users.
+    - `chmod 777 fileName` – Set all permissions for all users.
+    - `chmod 755 fileName` – Set read, write, and execute permissions for the owner and group, and read and execute permissions for others.
+    - `chmod 644 fileName` – Set read and write permissions for the owner, and read permissions for the group and others.
 ---
