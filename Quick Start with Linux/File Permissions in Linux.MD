@@ -26,8 +26,16 @@
     - Managing Script Files and Permissions
 7. **Advanced Topics**
     - ACL (Access Control Lists)
+    - Standard File Permissions
+    - ACLs vs Standard Permissions
     - Recursive Changes
     - Finding Files by Permissions
+    - Symbolic Links and Permissions
+    - Immutable Files
+    - Masking Permissions with `umask`
+    - Octal vs. Symbolic Representation Comparison
+    - Hidden Permissions (CAP_* Capabilities)
+    - Effective Permissions and the `stat` Command
 8. **Security Best Practices**
 
 ---
@@ -229,7 +237,7 @@ Common permission sets:
 
 ## **6. Practical Tasks**
 
-### **6.1 Default Permissions (`umask`)
+### **6.1 Default Permissions (`umask`)**
 
 The `umask` command controls the default permissions for newly created files.
 
@@ -263,7 +271,7 @@ umask 022  # Default permissions: rw-r--r--
 
 ### **7.1 ACL (Access Control Lists)**
 
-ACLs provide fine-grained permissions beyond the standard `chmod`.
+ACLs provide more fine-grained permissions than standard file permissions, allowing more detailed control over who can access files or directories.
 
 - **Set ACL**:
 
@@ -279,7 +287,29 @@ ACLs provide fine-grained permissions beyond the standard `chmod`.
 
 ---
 
-### **7.2 Recursive Changes**
+### **7.2 Standard File Permissions**  
+Standard file permissions are the basic permissions that apply to files and directories, managed using common commands:
+
+- **`umask`**: Controls default permissions for newly created files.  
+- **`chmod`**: Modifies permissions for files and directories.  
+- **`chown`**: Changes the owner of a file or directory.  
+- **`chgrp`**: Modifies the group ownership of a file or directory.  
+- **`chattr`**: Adjusts file attributes to restrict modifications.  
+- **`lsattr`**: Lists file attributes of files or directories.  
+- **`setfacl`**: Configures Access Control Lists.  
+- **`getfacl`**: Retrieves the ACLs for a file or directory.  
+
+---
+
+### **7.3 Standard File Permissions VS ACLs**  
+| Feature                | Standard File Permissions | Access Control Lists (ACLs) |
+|------------------------|---------------------------|----------------------------|
+| Granularity            | Basic (user, group, others) | Fine-grained, specific users/groups |
+| Supported Commands     | `chmod`, `chown`, `chgrp`  | `setfacl`, `getfacl`       |
+| Flexibility            | Limited to three entities  | Allows multiple permissions per file |
+
+
+### **7.4 Recursive Changes**
 
 When making changes to permissions, use the `-R` flag for recursive changes.
 Here recursive means that it will apply the changes to all files and subdirectories.
@@ -295,12 +325,92 @@ chgrp -R group directory
 
 ---
 
-### **7.3 Finding Files by Permissions**
+### **7.5 Finding Files by Permissions**
 
 Find files with specific permissions using `find`:
 
 ```bash
-find /path -perm 755 # Find files with 755 permissions
+find /path -perm 755
+```
+
+---
+
+### **7.6 Symbolic Links and Permissions**
+Symbolic links are shortcuts to files or directories.
+
+Symbolic links have their own permissions that are typically ignored; permissions on the target file are applied instead.
+
+```bash
+ln -s target linkname
+ls -l linkname  # Displays link permissions
+```
+
+---
+
+### **7.7 Immutable Files**
+Immutable files cannot be modified or deleted.
+
+Make files immutable to prevent modification or deletion.
+
+- **Set immutable attribute**:
+
+    ```bash
+    chattr +i filename
+    ```
+
+- **View attributes**:
+
+    ```bash
+    lsattr filename
+    ```
+
+---
+
+### **7.8 Masking Permissions with `umask`**
+The `umask` command sets the default permissions for newly created files.
+
+Modify default file creation permissions with `umask`. The final permissions are affected by subtracting the `umask` value from the system defaults.
+
+```bash
+umask 022  # Default permissions: rw-r--r--
+```
+
+---
+
+### **7.9 Octal vs. Symbolic Representation Comparison**
+
+Provide symbolic equivalents for common octal settings to clarify concepts:
+
+| Octal | Symbolic |
+|-------|----------|
+| 755   | u=rwx,g=rx,o=rx |
+| 644   | u=rw,g=r,o=r |
+| 700   | u=rwx,g=,o= |
+
+---
+
+### **7.10 Hidden Permissions (CAP_* Capabilities)**
+
+Linux capabilities are a way to grant specific privileges to processes.
+
+Use Linux capabilities to manage fine-grained permissions beyond standard user/group/others.
+
+- Example:
+
+    ```bash
+    setcap cap_net_bind_service=+ep /path/to/binary
+    ```
+
+---
+
+### **7.11 Effective Permissions and the `stat` Command**
+
+Effective permissions are the permissions that a user or process actually has.
+
+Check effective permissions of a file.
+
+```bash
+stat filename
 ```
 
 ---
